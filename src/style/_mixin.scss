@@ -1,0 +1,86 @@
+
+@mixin colorbody{
+    height: 100%; 
+    width: 100%;
+    background-color: #f6fafd;
+} 
+
+@mixin clearfix {
+  zoom: 1;
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin scrollBar {
+  &::-webkit-scrollbar-track-piece {
+    background: #d3dce6;
+  }
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #99a9bf;
+    border-radius: 20px;
+  }
+}
+
+@mixin bg-linear-gradients{
+  background: rgba(44,156,243,0.9);
+  background: -webkit-linear-gradient(left, #2c9cea, #1bb2f9);
+  background: -moz-linear-gradient(left, #2c9cea, #1bb2f9);
+  background: -o-linear-gradient(left, #2c9cea, #1bb2f9);
+  background: linear-gradient(to right, #2c9cea, #1bb2f9); 
+ 
+}
+
+@mixin relative {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+
+@mixin pct($pct) {
+  width: #{$pct};
+  position: relative;
+  margin: 0 auto;
+}
+
+@mixin menuchange($width,$obj){
+  width: #{$width};
+	transition: #{$obj} $transition-time;
+}
+
+@mixin triangle($width, $height, $color, $direction) {
+  $width: $width/2;
+  $color-border-style: $height solid $color;
+  $transparent-border-style: $width solid transparent;
+  height: 0;
+  width: 0;
+  @if $direction==up {
+    border-bottom: $color-border-style;
+    border-left: $transparent-border-style;
+    border-right: $transparent-border-style;
+  }
+  @else if $direction==right {
+    border-left: $color-border-style;
+    border-top: $transparent-border-style;
+    border-bottom: $transparent-border-style;
+  }
+  @else if $direction==down {
+    border-top: $color-border-style;
+    border-left: $transparent-border-style;
+    border-right: $transparent-border-style;
+  }
+  @else if $direction==left {
+    border-right: $color-border-style;
+    border-top: $transparent-border-style;
+    border-bottom: $transparent-border-style;
+  }
+}
+@function color($key) {
+  @return map-get( $info , $key)
+}
