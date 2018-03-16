@@ -42,6 +42,10 @@
   height: 100%;
 }
 
+@mixin wh($width,$height){
+  width: #{$width};
+  height: #{$height};
+}
 
 @mixin pct($pct) {
   width: #{$pct};

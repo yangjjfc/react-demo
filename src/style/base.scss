@@ -84,7 +84,7 @@ input:-webkit-autofill {
 }
 input[type="number"]{
     -moz-appearance: textfield;
-}
+} 
 textarea {
     -webkit-appearance: none;
 }
@@ -146,5 +146,7 @@ textarea {
     overflow: hidden;
 }
 
-
+#root{
+    @include wh(100%,100%);
+}
 

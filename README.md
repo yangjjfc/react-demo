@@ -13,7 +13,7 @@ react一般不推荐直接修改官方的webpack配置,而是使用react-app-rew
 1.cnpm install react-app-rewired --save-dev 
 2.cnpm install --save-dev codebandits/react-app-rewire-css-modules sass-loader node-sass //sass
 3.cnpm install react-app-rewire-hot-loader --save-dev//支持热替换
-# If you don't already, you also need:
+###If you don't already, you also need:
 cnpm install react-app-rewired --save-dev
 cnpm install react-hot-loader --save-dev
 4.cnpm install react-router-dom react-router-redux  --save-dev //安装router
@@ -21,3 +21,8 @@ cnpm install react-hot-loader --save-dev
 6.cnpm install axios --save //安装axios,http请求
 7.cnpm install nprogress --save-dev //请求进度条
 8.cnpm install antd --save //ui antd
+
+
+##添加eslint
+cnpm i eslint eslint-config-standard eslint-friendly-formatter eslint-loader eslint-plugin-html eslint-plugin-jsx eslint-plugin-promise eslint-plugin-react eslint-plugin-standard babel-eslint -D
+然后在根目录下添加.eslintrc.js文件
