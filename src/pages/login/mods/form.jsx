@@ -48,7 +48,7 @@ class NormalLoginForm extends Component {
                               <Input type="text" placeholder="valy" className="valy" />
                           )}
                           <div className="right">
-                              <img src="" width="80" height="30" />
+                              <img src="12" width="80" height="30" />
                               {/* <a href="javascript:void(0)">换一张？</a> */}
                           </div>
                       </FormItem>
