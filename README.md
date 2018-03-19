@@ -26,3 +26,15 @@ cnpm install react-hot-loader --save-dev
 ##添加eslint
 cnpm i eslint eslint-config-standard eslint-friendly-formatter eslint-loader eslint-plugin-html eslint-plugin-jsx eslint-plugin-promise eslint-plugin-react eslint-plugin-standard babel-eslint -D
 然后在根目录下添加.eslintrc.js文件
+
+##添加环境变量(process.env)
+react 默认就有自定义添加环境变量的方法
+[配置环境变量](https://www.jianshu.com/p/cec6de30fdd0);
+[配置环境变量](http://joescott.coding.me/blog/2017/04/27/create-react-app-env-api/);
+但是这里没采用官网的方法,直接自定义方法覆盖原官网所写,相对简单
+config.plugins.unshift(new webpack.DefinePlugin({
+    'process.env': env === 'development' ? myconfig.dev.env : myconfig.build.env,
+})) //添加本地全局配置信息
+
+##create-react-app 配置proxy
+直接在package.json中配置proxy就行

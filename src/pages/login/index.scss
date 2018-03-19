@@ -13,7 +13,15 @@
     .login-form-button {
         width: 100%;
     }
-    .valy{
+    .auth-code{
         width: 40%;
+    }
+    .auth-right{
+        img{
+            margin-right: 5px;
+        }
+        span{
+            color: #2c9cea;
+        }
     }
 }

@@ -22,7 +22,7 @@ let Http = async (url, data = {},header={},type = 'post') => {
         ...header
     };
     // 添加header token
-    let token = ''//store.state.user.userInfo ? store.state.user.userInfo.token : '';
+    let token = '';// store.state.user.userInfo ? store.state.user.userInfo.token : '';
     if (token) {
         headers = Object.assign(headers, {'jtoken': token});
     }

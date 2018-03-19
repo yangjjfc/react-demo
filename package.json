@@ -42,6 +42,15 @@
     "react-router-redux": "^4.0.8",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "sass-loader": "^6.0.7"
+    "sass-loader": "^6.0.7",
+    "webpack-merge": "^4.1.2"
+  },
+  "proxy":{
+    "/gateway": {
+        "target": "http://brp.dev.cloudyigou.com",
+        "changeOrigin": true,
+        "logLevel":"debug",
+        "pathRewrite": {}
+    }
   }
 }

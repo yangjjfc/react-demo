@@ -80,7 +80,7 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
 input:-webkit-autofill {
-	-webkit-box-shadow : 0 0 0px 1000px white inset ;
+	-webkit-box-shadow : 0 0 0px 1000px white inset ; 
 }
 input[type="number"]{
     -moz-appearance: textfield;
@@ -121,6 +121,10 @@ textarea {
 
 .text-center {
     text-align: center
+    
+}
+.pointer{
+    cursor: pointer;
 }
 
 .ellipsis {

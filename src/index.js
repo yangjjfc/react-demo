@@ -8,7 +8,7 @@ import '@basic';
 
 //
 const render = Component => {
-    ReactDOM.render(
+    ReactDOM.render( 
       <AppContainer>
         <Component />
       </AppContainer>,

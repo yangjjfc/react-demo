@@ -74,19 +74,19 @@ class Interceptor {
                 if (response.data.code === 'SUCCESS' || response.data.code === '0') {
                     return response.data;
                 } else if (response.data.code === 'SESSION_EXPIRED' || response.data.code === '5000') {
-                    Message.error({
-                        showClose: true,
-                        message: '登陆过期'
-                    });
+                    // Message.error({
+                    //     showClose: true,
+                    //     message: '登陆过期'
+                    // });
                     window.location.href = '/login';
                     return Promise.reject(response.data);
                 } else if (response.data.code === 'FAILURE') {  // excel导入检验失败code
                     return Promise.reject(response.data);
                 } else {
-                    Message.error({
-                        showClose: true,
-                        message: `${response.data.message}`
-                    });
+                    // Message.error({
+                    //     showClose: true,
+                    //     message: `${response.data.message}`
+                    // });
                     return Promise.reject(response.data);
                 }
             }

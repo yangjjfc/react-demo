@@ -8,6 +8,10 @@
     {
       "language": "jsx",
       "autoFix": true
+    },
+    {
+      "language": "js",
+      "autoFix": true
     }
   ],
   "eslint.options": {
