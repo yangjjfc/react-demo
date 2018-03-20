@@ -13,7 +13,7 @@ function resolve (dir) {
     return path.join(__dirname,dir);
 }
 const alias = {
-    '~img': resolve('src/accets/img'),
+    '~img': resolve('src/assets/img'),
     '~http': resolve('src/utils/axios'),
     '@basic': resolve('src/style/base.scss'),
     '@': resolve('src')

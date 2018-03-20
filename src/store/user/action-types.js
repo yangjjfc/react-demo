@@ -1,1 +1,1 @@
-const USERINFO = 'USERINFO';
+export const USERINFO = 'USERINFO'; // 获取用户信息

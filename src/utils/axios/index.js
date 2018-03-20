@@ -3,6 +3,7 @@
  */
 import axios from 'axios';
 import Interceptor from './interceptor';
+import store from '@/store';
 const TimeOut = 10000;
 // 初始化拦截器
 new Interceptor(TimeOut); // eslint-disable-line no-new
@@ -14,7 +15,8 @@ new Interceptor(TimeOut); // eslint-disable-line no-new
  * @param {*} type  请求类型,默认post
  * @param {*} header 添加头部信息
  */
-let Http = async (url, data = {},header={},type = 'post') => {
+let Http = async (url, data = {}, header = {}, type = 'post') => {
+    const { currentUserInfo } = store.getState();
     let headers = {
         'X-Requested-With': 'XMLHttpRequest',
         'Content-Type': 'application/json',
@@ -22,7 +24,7 @@ let Http = async (url, data = {},header={},type = 'post') => {
         ...header
     };
     // 添加header token
-    let token = '';// store.state.user.userInfo ? store.state.user.userInfo.token : '';
+    let token = currentUserInfo.token || '';
     if (token) {
         headers = Object.assign(headers, {'jtoken': token});
     }

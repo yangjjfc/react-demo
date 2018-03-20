@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Http from '~http';
+import { connect } from 'react-redux';
+import { getCurrentUser } from '@/store/user/actions';
 import { Form, Icon, Input, Button, Checkbox, Card } from 'antd';
 const FormItem = Form.Item; 
 const URL = { 
@@ -31,6 +33,8 @@ class NormalLoginForm extends Component {
         };
     } 
     componentWillMount () {
+        const { getCurrentUser } = this.props;
+        getCurrentUser();
         this.getRandomImg();
     }
     handleSubmit (e) {
@@ -54,7 +58,6 @@ class NormalLoginForm extends Component {
         });
     }
     render () {
-        console.log(this.props);
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="my-login">
@@ -63,20 +66,23 @@ class NormalLoginForm extends Component {
                         <FormItem>
                             {getFieldDecorator('userName', {
                                 rules: this.rules.userName,
+                                initialValue: 'scm_dajyb',
                             })(
                                 <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}  placeholder="Username" />
                             )}
                         </FormItem>
                         <FormItem>
                             {getFieldDecorator('password', {
-                                rules: this.rules.password
+                                rules: this.rules.password,
+                                initialValue: '123456',
                             })(
                                 <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
                             )}
                         </FormItem>
                         <FormItem>
                             {getFieldDecorator('authCode', {
-                                rules: this.rules.authCode
+                                rules: this.rules.authCode,
+                                initialValue: '1234',
                             })(
                                 <Input type="text" placeholder="验证码" maxLength="4" className="auth-code" />
                             )}
@@ -105,4 +111,17 @@ class NormalLoginForm extends Component {
     }
 }
 
-export default  Form.create()(NormalLoginForm);
+
+function mapStateToProps (state) {
+    return {
+        userInfo: state.currentUserInfo
+    };
+}
+
+function mapDispatchToProps (dispatch) {
+    return {
+        getCurrentUser: (res) => dispatch(getCurrentUser(res)),
+    };
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Form.create()(NormalLoginForm));
