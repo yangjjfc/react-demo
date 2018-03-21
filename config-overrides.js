@@ -6,7 +6,6 @@ var merge = require('webpack-merge')
 const myconfig = require('./config')
 const rewireCssModules = require('react-app-rewire-css-modules');
 const rewireReactHotLoader = require('react-app-rewire-hot-loader');
-// const rewireEslint = require('react-app-rewire-eslint');
 const { injectBabelPlugin } = require('react-app-rewired');
 
 function resolve (dir) {
@@ -14,6 +13,7 @@ function resolve (dir) {
 }
 const alias = {
     '~img': resolve('src/assets/img'),
+    '~global': resolve('src/utils/custom/global.common.js'),
     '~http': resolve('src/utils/axios'),
     '@basic': resolve('src/style/base.scss'),
     '@': resolve('src')

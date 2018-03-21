@@ -91,23 +91,23 @@ export const getFileType = (item) => {
 };
 
 // 格式化图片
-import pdf from '@/assets/images/pdf.png'; // daf
-import noimg from '@/assets/images/noimage.png'; // 没有图片
-export const formatFile = (item) => {
-    let thumbnail = '';
-    switch (getFileType(item)) {
-    case 'image':
-        thumbnail = process.env.IMAGE_DOWNLOAD + changeImgSize(item);
-        break;
-    case 'pdf':
-        thumbnail = pdf;
-        break;
-    default:
-        thumbnail = noimg;
-        break;
-    }
-    return thumbnail;
-};
+// const pdf =require ('@/assets/images/pdf.png'); // daf
+// const noimg = require('@/assets/images/noimage.png'); // 没有图片
+// export const formatFile = (item) => {
+//     let thumbnail = '';
+//     switch (getFileType(item)) {
+//     case 'image':
+//         thumbnail = process.env.IMAGE_DOWNLOAD + changeImgSize(item);
+//         break;
+//     case 'pdf':
+//         thumbnail = pdf;
+//         break;
+//     default:
+//         thumbnail = noimg;
+//         break;
+//     }
+//     return thumbnail;
+// };
 
 /**
  *
@@ -122,9 +122,10 @@ export const changeImgSize = (src, size = '100x100') => {
 /**
  * 密码加密处理
  */
-import CryptoJS from '@/assets/plugins/aes/aes-min.min.js';
-import SHA256 from '@/assets/plugins/sha256/sha256.min.js';
 export const encryption = (password, clientid, token) => {
+    const CryptoJS=require('@/assets/plugins/aes/aes-min.min.js').default;
+    const SHA256 = require('@/assets/plugins/sha256/sha256.min.js').default;
+    console.log(clientid);
     let _encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(SHA256(password)), CryptoJS.enc.Utf8.parse(clientid), {
         iv: CryptoJS.enc.Utf8.parse(token),
         mode: CryptoJS.mode.CBC,

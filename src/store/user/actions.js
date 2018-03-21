@@ -1,6 +1,7 @@
 import Http from '~http';
-import { USERINFO } from './action-types';
+import { USERINFO,TOLOGIN } from './action-types';
 
+/** 获取用户信息 */
 export const getCurrentUser = () => async (dispatch, getState) => {
     const {currentUserInfo}=getState();
     try {
@@ -9,6 +10,23 @@ export const getCurrentUser = () => async (dispatch, getState) => {
             type: USERINFO,
             user: res.data
         });
+    } catch (error) {
+        console.error(error);
+    }
+}; 
+
+/**
+ * 登录
+ * @param {*参数} params 
+ */
+export const login = (params) => async (dispatch, getState) => {
+    try {
+        let  res = await Http('login',params);
+        dispatch({
+            type: TOLOGIN,
+            user: res.data
+        });
+        return res;
     } catch (error) {
         console.error(error);
     }

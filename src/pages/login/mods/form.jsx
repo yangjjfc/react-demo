@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
-import Http from '~http';
+import {withRouter} from 'react-router-dom'; // 注入history到this.props
 import { connect } from 'react-redux';
-import { getCurrentUser } from '@/store/user/actions';
+import { getCurrentUser,login  } from '@/store/user/actions';
+import { encryption } from '~global';
 import { Form, Icon, Input, Button, Checkbox, Card } from 'antd';
 const FormItem = Form.Item; 
 const URL = { 
     VERIFY_CODE: '/verifyCode',
-    login: 'login'
 };
 class NormalLoginForm extends Component {
     constructor (props) {
         super(props);
         this.state={
-            userName: 'scm_dajyb',
-            password: '123456',
-            verification: '1234',
-            authImg: '',
+            authImg: '' // 验证码
         };
+        // 规则
         this.rules={
             userName: [
                 { required: true, message: '请输入用户名' },
@@ -33,25 +31,29 @@ class NormalLoginForm extends Component {
         };
     } 
     componentWillMount () {
-        const { getCurrentUser } = this.props;
-        getCurrentUser();
-        this.getRandomImg();
+        this.props.getCurrentUser(); // 获取临时信息
+        this.getRandomImg(); 
     }
+    // 提交表单
     handleSubmit (e) {
         e.preventDefault();
-        console.log(this.props.form.getFieldsValue());
         this.props.form.validateFields((err, values) => {
-            console.log(values);
             if (!err) {
-                Http(URL.login,{
+                const { history,userInfo,login} = this.props;
+                let params={
+                    platform: 'BRP',
                     userName: values.userName,
-                    password: values.password
+                    password: encryption(values.password,userInfo.clientId,userInfo.token)
+                };
+                login(params).then(res=>{
+                    console.log('登录成功');
+                    history.push('/app');
                 });
             }
         });
     } 
+    // 获取验证码
     getRandomImg () {
-        console.log(this);
         let authImg = process.env.REACT_APP_SERVER + URL.VERIFY_CODE + '?t=' + Math.round(Math.random() * 1000000);
         this.setState({
             authImg
@@ -66,7 +68,7 @@ class NormalLoginForm extends Component {
                         <FormItem>
                             {getFieldDecorator('userName', {
                                 rules: this.rules.userName,
-                                initialValue: 'scm_dajyb',
+                                initialValue: 'hzgjmygs',
                             })(
                                 <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}  placeholder="Username" />
                             )}
@@ -112,16 +114,13 @@ class NormalLoginForm extends Component {
 }
 
 
-function mapStateToProps (state) {
-    return {
-        userInfo: state.currentUserInfo
-    };
-}
+const mapStateToProps=(state)=> ({
+    userInfo: state.currentUserInfo
+});
 
-function mapDispatchToProps (dispatch) {
-    return {
-        getCurrentUser: (res) => dispatch(getCurrentUser(res)),
-    };
-}
+const mapDispatchToProps= (dispatch)=> ({
+    getCurrentUser: (res) => dispatch(getCurrentUser(res)),
+    login: (params) => dispatch(login(params))
+});
 
-export default connect(mapStateToProps,mapDispatchToProps)(Form.create()(NormalLoginForm));
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(Form.create()(NormalLoginForm)));

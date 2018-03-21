@@ -25,7 +25,8 @@ cnpm install react-hot-loader --save-dev
 
 ##添加eslint
 cnpm i eslint eslint-config-standard eslint-friendly-formatter eslint-loader eslint-plugin-html eslint-plugin-jsx eslint-plugin-promise eslint-plugin-react eslint-plugin-standard babel-eslint -D
-然后在根目录下添加.eslintrc.js文件
+然后在根目录下添加.eslintrc.js文件 
+issue :create-react-app 无法使用eslintignore忽略文件的检测,暂时只能在文件头部加上/eslint-disable*/来解决
 
 ##添加环境变量(process.env)
 react 默认就有自定义添加环境变量的方法

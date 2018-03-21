@@ -1,3 +1,4 @@
+/*eslint-disable*/
 /*
  * Boxer v3.0.3 - 2014-01-12
  * A jQuery plugin for displaying images, videos or content in a modal overlay. Part of the Formstone Library.
