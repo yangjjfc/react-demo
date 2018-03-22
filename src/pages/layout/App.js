@@ -1,23 +1,42 @@
 import React, { Component } from 'react';
-import logo from '~img/logo.svg';
-import { Button } from 'antd';
+import {withRouter} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getroles } from '@/store/user/actions';
+import SiderBar from './siderBar';
+import Login from '@/pages/login/index';
+import { BrowserRouter, Switch, Route, Link, Redirect } from 'react-router-dom';
 import './App.scss';
-
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-        <Button type="primary">Button</Button>  
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+  
+    async componentWillMount () {
+        let {roles}=this.props.state;
+        if (!roles.length) {
+            let res= await this.props.getroles();
+            roles=res.data.permissionSet;
+        }
+        
+    }
+    render () {
+        return (
+            <div id="content-main">
+                <SiderBar />
+                {/* <BrowserRouter>
+                    <Switch>
+                        <Route path="/login" exact component={Login} />
+                        <Redirect to="/login" />
+                    </Switch>
+                </BrowserRouter> */}
+            </div>
+        );
+    }
 }
 
-export default App;
+const mapStateToProps=(state)=> ({
+    state
+});
+
+const mapDispatchToProps= (dispatch)=> ({
+    getroles: (res) => dispatch(getroles(res))
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(App));

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {withRouter} from 'react-router-dom'; // 注入history到this.props
 import { connect } from 'react-redux';
-import { getCurrentUser,login  } from '@/store/user/actions';
+import { getCurrentUser,login} from '@/store/user/actions';
 import { encryption } from '~global';
 import { Form, Icon, Input, Button, Checkbox, Card } from 'antd';
 const FormItem = Form.Item; 
@@ -41,13 +41,13 @@ class NormalLoginForm extends Component {
             if (!err) {
                 const { history,userInfo,login} = this.props;
                 let params={
-                    platform: 'BRP',
+                    // platform: 'BRP',
                     userName: values.userName,
                     password: encryption(values.password,userInfo.clientId,userInfo.token)
                 };
                 login(params).then(res=>{
                     console.log('登录成功');
-                    history.push('/app');
+                    history.push('/app',{ url: 'home' });
                 });
             }
         });
@@ -68,7 +68,7 @@ class NormalLoginForm extends Component {
                         <FormItem>
                             {getFieldDecorator('userName', {
                                 rules: this.rules.userName,
-                                initialValue: 'hzgjmygs',
+                                initialValue: 'yosemite',
                             })(
                                 <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}  placeholder="Username" />
                             )}

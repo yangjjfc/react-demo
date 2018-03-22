@@ -1160,12 +1160,12 @@ return {
 	};
 
   $.boxer = function ($target, opts) {
-  if (pub[$target]) {
-  return pub[$target].apply(window, Array.prototype.slice.call(arguments, 1))
-		} else {
-  return _build.apply(window, [{ data: $.extend({
-  $object: $target
-}, options, opts || {}) }])
-		}
+	if (pub[$target]) {
+	return pub[$target].apply(window, Array.prototype.slice.call(arguments, 1))
+			} else {
+	return _build.apply(window, [{ data: $.extend({
+	$object: $target
+	}, options, opts || {}) }])
+			}
 }
 })(jQuery, window)

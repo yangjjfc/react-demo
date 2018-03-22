@@ -1,5 +1,5 @@
 import Http from '~http';
-import { USERINFO,TOLOGIN } from './action-types';
+import { USERINFO,TOLOGIN,GETROLES } from './action-types';
 
 /** 获取用户信息 */
 export const getCurrentUser = () => async (dispatch, getState) => {
@@ -25,6 +25,24 @@ export const login = (params) => async (dispatch, getState) => {
         dispatch({
             type: TOLOGIN,
             user: res.data
+        });
+        return res;
+    } catch (error) {
+        console.error(error);
+    }
+}; 
+
+export const getroles = (params) => async (dispatch, getState) => {
+    const {currentUserInfo}=getState();
+    try {
+        let res = await Http('ypt.user.findRightsByUserNoAndAppRole', {
+            userNo: currentUserInfo.userNo,
+            appCode: 'YSCM',
+            appRole: ''
+        });
+        dispatch({
+            type: GETROLES,
+            roles: res.data.permissionSet
         });
         return res;
     } catch (error) {
