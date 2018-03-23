@@ -2,56 +2,66 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Upload, Icon, message } from 'antd';
+import {getFileType, formatFile} from '~global'; 
 import $ from 'jquery';
 import '@/assets/plugins/boxer/jquery.fs.boxer.css';
-import {boxer} from '@/assets/plugins/boxer/jquery.fs.boxer.js';
+import '@/assets/plugins/boxer/jquery.fs.boxer.js';
 class PicturesWall extends Component {
+    // props 类型
     static PropTypes={
         listType: PropTypes.string,
-        fileList: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-
+        files: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+        getfile: PropTypes.func // 回调函数.获取fileList
     }
+    // default props
     static defaultProps = {
         listType: 'picture-card',
         maxLength: 3,
-        fileList: 's3/M00/00/04/rB4r9Fqg8o6AIF98AAB6xu5zodI651.png'
+        files: 's3/M00/00/05/rB4r9Fq0avaAOOoWAAM-lgRNguk226.pdf,s3/M00/00/05/rB4r9Vq0bUuADnYTAAvJWuf_16s269.pdf'
     };
     constructor (props) {
         super(props);
         this.state = {
             action: process.env.REACT_APP_IMAGE_UPLOAD,
             headers: {},
-            previewImage: '',
-            fileList: []
+            multiple: false,// 不支持多选
+            previewImage: '', // 查看src
+            fileList: [] // 文件
         };
     }
     componentWillMount () {
-        let {fileList,userInfo}=this.props;
+        let {files,userInfo}=this.props;
+        if(!userInfo.token) {
+            message.error('token无法获取',4);  
+            return;
+        }
         this.setState({
             headers: {
                 jtoken: userInfo.token
             }
         });
-        let file=typeof fileList ==='string'? fileList.split(','):(fileList instanceof Array ?fileList:null);
+        let file=typeof files ==='string'? files.split(','):(files instanceof Array ?files:null);
         file&&file.length&&this.formatPic(file);
     }
     componentDidMount () {
-        $(this.boxer).boxer();
+        $(this.boxer).boxer();// boxer
     }
+    // 格式化图片
     formatPic (file) {
-        let formatFile=file.map((item,index)=> ({
+        let fileList=file.map((item,index)=>({
             uid: Math.random() * 1000000000,
             status: 'done',
-            name: 'xxx.png',
-            url: process.env.REACT_APP_IMAGE_DOWNLOAD+item
+            name: 'img.png',
+            sourceUrl: process.env.REACT_APP_IMAGE_DOWNLOAD+item,
+            url: formatFile(item),
+            thumbUrl: ''
         }));
         this.setState({
-            fileList: formatFile
+            fileList
         });
     }
     beforeUpload (file, fileList) {
-        console.log(file, fileList);
-        if(!this.getFileType(file.name)) {
+        if(!getFileType(file.name)) {
             message.error('文件类型不支持',4);
             return false;
         }
@@ -60,48 +70,33 @@ class PicturesWall extends Component {
             return false;
         }
     }
-    handleCancel () {
-        this.setState({ previewVisible: false });
-    }
+    // 查看大图
     handlePreview (file) {
-        console.log(file);
         this.setState({
-            previewImage: file.url || file.thumbUrl,
+            previewImage: file.sourceUrl || file.url || file.thumbUrl,
         },()=>{
             this.boxer.click();
         });
     }
+    // 文件改变
     handleChange ({ file,fileList }) {
-        console.log('1312312',file);
-        if(file.status) {
+        console.log(file,fileList);
+        if(file.status&& file.status !=='error') {
+            if(file.status==='done') {
+                fileList.pop();
+                file.url=formatFile(file.response.data);
+                file.sourceUrl=process.env.REACT_APP_IMAGE_DOWNLOAD+file.response.data;
+                fileList.push(file);
+            }
             this.setState({ fileList });
         }
     }
     handleRemove (file) {
         console.log(file);
     }
-   
-    getFileType (item)  {
-    // 判断是否是图片
-        let strFilter = ['jpeg', 'jpg', 'png', 'pic', 'bmp', 'gif'];
-        let strPostfix;
-        if (!item) {
-            return null;
-        }
-        if (item.indexOf('.') > -1) {
-            strPostfix = item.split('.').pop().toLowerCase();
-            if (~strFilter.indexOf(strPostfix)) {
-                return 'image';
-            } else if (~['pdf'].indexOf(strPostfix)) {
-                return 'pdf';
-            } else {
-                return false; // 不支持的文件类型
-            }
-        }
-        return null;
-    }
     render () {
-        const { action,headers, previewImage, fileList } = this.state;
+        const { action,headers, previewImage, fileList,multiple } = this.state;
+        const {maxLength}=this.props;
         const uploadButton = (
             <div>
                 <Icon type="plus" />
@@ -111,6 +106,7 @@ class PicturesWall extends Component {
         return (
             <div className="clearfix">
                 <Upload
+                    multiple={multiple}
                     action={action}
                     headers={headers}
                     listType={this.props.listType}
@@ -120,7 +116,7 @@ class PicturesWall extends Component {
                     onChange={this.handleChange.bind(this)}
                     onRemove={this.handleRemove.bind(this)}
                 >
-                    {fileList.length >= 3 ? null : uploadButton}
+                    {fileList.length >= maxLength ? null : uploadButton}
                 </Upload>
                 <a href={previewImage}  ref={(c) => { this.boxer = c; }} className="boxer" style={{'display': 'none'}}>img</a>
             </div>

@@ -3,17 +3,23 @@ import Table from '@/pages/table';
 import Login from '@/pages/login/index';
 import upload from '@/pages/upload/index';
 import {withRouter} from 'react-router-dom';
-import { Layout, Menu, Icon } from 'antd';
+import MyDialog from '@/components/myDialog';
+import { Layout, Menu, Icon,Button  } from 'antd';
 import { BrowserRouter, Switch, Route, Link, Redirect } from 'react-router-dom';
 const { Header, Sider, Content } = Layout;
 
 class SiderBar extends Component {
   state = {
       collapsed: false,
+      dialog: {
+          visible: false,
+          title: 'this is title'
+      }
   };
   toggle = () => {
       this.setState({
           collapsed: !this.state.collapsed,
+         
       });
   }
   menuSelect ({ item, key, selectedKeys }) {
@@ -21,6 +27,16 @@ class SiderBar extends Component {
       console.log(this.props.history);
       //   this.props.history
       this.props.history.push(`/app/${key}`);
+  }
+  handleClick =()=> {
+      this.setState(prevState => ({
+          dialog: {...prevState.dialog,visible: true},
+      }));
+  }
+  submit=()=>{
+      this.setState(prevState => ({
+          dialog: {...prevState.dialog,visible: false},
+      }));
   }
   render () {
       return (
@@ -46,6 +62,12 @@ class SiderBar extends Component {
                       </Menu.Item>
                   </Menu>
               </Sider>
+              <Button type="primary" onClick={this.handleClick}>Vertically centered modal dialog</Button>
+              <MyDialog {...this.state.dialog} submitCallback={this.submit}>
+                  <p>some contents...</p>
+                  <p>some contents...</p>
+                  <p>some contents...</p>
+              </MyDialog>
               <Layout>
                   <Header style={{ background: '#fff', padding: 0 }}>
                       <Icon

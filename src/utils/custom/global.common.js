@@ -1,3 +1,5 @@
+import pdf from '@/assets/images/pdf.png'; // daf
+import noimg from '@/assets/images/noimage.png'; // 没有图片
 /**
  * 金额格式化
  * @param {*str} n
@@ -91,23 +93,22 @@ export const getFileType = (item) => {
 };
 
 // 格式化图片
-// const pdf =require ('@/assets/images/pdf.png'); // daf
-// const noimg = require('@/assets/images/noimage.png'); // 没有图片
-// export const formatFile = (item) => {
-//     let thumbnail = '';
-//     switch (getFileType(item)) {
-//     case 'image':
-//         thumbnail = process.env.IMAGE_DOWNLOAD + changeImgSize(item);
-//         break;
-//     case 'pdf':
-//         thumbnail = pdf;
-//         break;
-//     default:
-//         thumbnail = noimg;
-//         break;
-//     }
-//     return thumbnail;
-// };
+export const formatFile = (item) => {
+    let thumbnail = '';
+    switch (getFileType(item)) {
+    case 'image':
+        thumbnail = process.env.REACT_APP_IMAGE_DOWNLOAD + changeImgSize(item);
+        break;
+    case 'pdf':
+        console.log('dasda');        
+        thumbnail = pdf;
+        break;
+    default:
+        thumbnail = noimg;
+        break;
+    }
+    return thumbnail;
+};
 
 /**
  *
